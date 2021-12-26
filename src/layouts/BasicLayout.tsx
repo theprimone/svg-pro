@@ -8,11 +8,8 @@ import ProLayout from '@ant-design/pro-layout';
 import { HomeOutlined } from '@ant-design/icons';
 import { history, Link, useLocation } from '@vitjs/runtime';
 
-import RightContent from '@/containers/GlobalHeader/RightContent';
-import GlobalFooter from '@/containers/GlobalFooter';
+import RightContent from '@/components/GlobalHeader/RightContent';
 import defaultSettings from '../../config/defaultSettings';
-
-const loginPath = '/user/login';
 
 export type BasicLayoutProps = {
   route: ProLayoutProps['route'];
@@ -25,12 +22,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     <ProLayout
       logo='https://github.com/vitjs/vit/raw/master/icons/logo.svg'
       {...props}
-      onPageChange={() => {
-        // 如果没有登录，重定向到 login
-        if (localStorage.getItem('status') !== 'ok' && history.location.pathname !== loginPath) {
-          history.push(loginPath);
-        }
-      }}
       onMenuHeaderClick={() => history.push('/')}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
@@ -58,7 +49,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      footerRender={() => <GlobalFooter />}
       // waterMarkProps={{
       //   content: 'Vite React',
       //   fontColor: 'rgba(24,144,255,0.15)',

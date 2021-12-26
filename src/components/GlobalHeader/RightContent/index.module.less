@@ -2,15 +2,6 @@
 
 @pro-header-hover-bg: rgba(0, 0, 0, 0.025);
 
-.menu {
-  :global(.anticon) {
-    margin-right: 8px;
-  }
-  :global(.ant-dropdown-menu-item) {
-    min-width: 160px;
-  }
-}
-
 .right {
   display: flex;
   float: right;
@@ -32,20 +23,6 @@
     }
     &:global(.opened) {
       background: @pro-header-hover-bg;
-    }
-  }
-  .search {
-    padding: 0 12px;
-    &:hover {
-      background: transparent;
-    }
-  }
-  .account {
-    .avatar {
-      margin-right: 8px;
-      color: @primary-color;
-      vertical-align: top;
-      background: rgba(255, 255, 255, 0.85);
     }
   }
 }

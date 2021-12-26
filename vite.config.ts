@@ -13,7 +13,7 @@ import routes from './config/routes';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/vite-react/',
+  base: '/svg-pro/',
   plugins: [
     react({
       babel: {

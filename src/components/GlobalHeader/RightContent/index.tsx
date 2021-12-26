@@ -1,6 +1,6 @@
 import { Space } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import Avatar from './AvatarDropdown';
+import { GithubOutlined } from '@ant-design/icons';
+
 import styles from './index.module.less';
 
 export type SiderTheme = 'light' | 'dark';
@@ -18,10 +18,12 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className}>
-      <span className={styles.action}>
-        <QuestionCircleOutlined />
+      <span
+        className={`${styles.action}`}
+        onClick={() => window.open('https://github.com/theprimone/svg-pro', '_blank')}
+      >
+        <GithubOutlined style={{ fontSize: '1.4em' }} />
       </span>
-      <Avatar menu />
     </Space>
   );
 };
