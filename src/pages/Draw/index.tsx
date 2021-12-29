@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card } from 'antd';
+import { Button, Card, Space } from 'antd';
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -7,11 +7,13 @@ import { useUnmount } from 'ahooks';
 
 gsap.registerPlugin(Draggable);
 
-import type { Svg } from '@svgdotjs/svg.js';
+import type { Path, Svg } from '@svgdotjs/svg.js';
 import { makeSvgBoard } from '@/utils/svg';
+import styles from './index.module.less';
 
 export default function Draw() {
   const svgDrawRef = useRef<Svg>();
+  const pencilPathRef = useRef<Path>();
   const pencilRef = useRef<Draggable>();
 
   useUnmount(() => {
@@ -21,10 +23,11 @@ export default function Draw() {
   return (
     <PageContainer breadcrumbRender={false}>
       <Card
-        style={{ height: 'calc(100vh - 48px - 98px - 24px - 24px)' }}
+        style={{ height: 'calc(100vh - 48px - 72px - 24px - 24px)' }}
         bodyStyle={{
           width: '100%',
           height: '100%',
+          position: 'relative',
         }}
       >
         <div
@@ -40,7 +43,7 @@ export default function Draw() {
               svgDrawRef.current = svgDraw;
 
               const pencilPath = svgDraw
-                .polyline()
+                .path()
                 .stroke({
                   width: 2,
                   color: '#000',
@@ -48,8 +51,7 @@ export default function Draw() {
                   linejoin: 'round',
                 })
                 .fill('none');
-
-              let points: number[] = [];
+              pencilPathRef.current = pencilPath;
 
               if (pencilRef.current) {
                 // 避免热更新导致的问题
@@ -59,12 +61,11 @@ export default function Draw() {
                 bounds: svgDraw.node,
                 trigger: svgDraw.node,
                 allowContextMenu: true,
+                allowEventDefault: true,
                 cursor: 'crosshair',
                 onPress(event: MouseEvent) {
                   const { offsetX: x, offsetY: y } = event;
-
-                  pencilPath.attr('points', '');
-                  points = [x, y];
+                  pencilPath.plot(pencilPath.plot().concat(['M', x, y]));
 
                   gsap.set(pencilPoint.node, { x, y });
                   this.update();
@@ -72,15 +73,18 @@ export default function Draw() {
                 onDrag() {
                   const x = this.endX;
                   const y = this.endY;
-
-                  points.push(x, y);
-                  pencilPath.attr('points', points.join(','));
+                  pencilPath.plot(pencilPath.plot().concat(['L', x, y]));
                   this.update();
                 },
               });
             }
           }}
         />
+        <div className={styles.toolbar}>
+          <Space>
+            <Button onClick={() => pencilPathRef.current?.plot([])}>Clear</Button>
+          </Space>
+        </div>
       </Card>
     </PageContainer>
   );
