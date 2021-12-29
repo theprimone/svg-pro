@@ -1,0 +1,1 @@
+import"./index.efcbcbf3.js";import{P as r,C as o}from"./index.7b4883dc.js";import{j as e}from"./react-venders.fd1d2b80.js";import"./RouteContext.f8a270e7.js";import"./button.1e52c3b7.js";function i(){return e(r,{breadcrumbRender:!1,children:e(o,{children:"Coming soon..."})})}export{i as default};
